@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        {% if form.error  %}
+            {% for error in form.error %}
+                <div class="notification is-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+    
+        <div class="field">
+            <label>Title</label>
+
+            <div class="control">
+                <input class="input" name="title" id="id_title">
+            </div>
+        </div>        
+
+        <div class="field">
+            <label>Short description</label>
+
+            <div class="control">
+                <textarea class="textarea" name="short_description" id="id_short_description"></textarea>
+            </div>
+        </div>
+
+
+        <div class="field">
+            <label>long description</label>
+
+            <div class="control">
+                <textarea class="textarea" name="long_description" id="id_long_description"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-success">Add Job</button>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}
