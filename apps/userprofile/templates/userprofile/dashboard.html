@@ -5,12 +5,22 @@
     <h2 class="subtitle">Jobs</h2>
     {% for job in request.user.jobs.all %}
         <div class="job">
-            {{ job.title }}
+            <a href="{% url 'view_dashboard_job' job.id  %}">{{ job.title }}</a>
         </div>
     {% empty %}
         <p>You don't have any jobs yet...</p>
     {% endfor %}
 {% else %}
-    <p>Is Job seeker</p>
+    <h2 class="subtitle">Applications</h2>
+    applicationsxxx
+    
+    {% for application in request.user.applications.all %}
+    <ul class="list-group">
+        <li class="list-group-item"><a href="{% url 'view_application' application.id %}">{{ application.job.title }}</a></li>
+
+    <ul>
+    {% empty %}
+        <p>You haven't applied for any jobs yet</p>
+    {% endfor%}
 {% endif %}
 {% endblock %}

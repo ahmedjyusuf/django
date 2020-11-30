@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import AddJobForm
 from .models import Job
-
+from .forms import ApplicationForm
+from django.contrib import messages
 
 
 
@@ -28,3 +29,25 @@ def add_job(request):
         form = AddJobForm()
 
         return render(request, 'job/add_job.html', {'form': form})
+
+@login_required
+def apply_for_job(request, job_id):
+    job = Job.objects.get(pk=job_id)
+    
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST)
+
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job = job
+            application.created_by = request.user
+            application.job = job
+            application.save()
+
+            return redirect('dashboard')
+        return redirect('dashboard')
+    else:
+        form = ApplicationForm()
+        messages.success(request, 'Your password was updated successfully!')
+        return render(request, 'job/apply_for_job.html', {'form': form,'job': job})        
+    
