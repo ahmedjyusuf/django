@@ -5,6 +5,7 @@ from .models import Job
 from .forms import ApplicationForm
 from django.contrib import messages
 
+from apps.notification.utilities import create_notification
 
 
 def job_detail(request, job_id):
@@ -22,6 +23,7 @@ def add_job(request):
             job.created_by = request.user
             job.save()
             
+
             return redirect('dashboard')
 
         return render(request, 'job/add_job.html', {'form': form})
@@ -44,6 +46,8 @@ def apply_for_job(request, job_id):
             application.job = job
             application.save()
 
+            create_notification(request, job.created_by, 'application', extra_id=application.id)
+            
             return redirect('dashboard')
         return redirect('dashboard')
     else:

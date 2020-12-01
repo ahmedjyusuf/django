@@ -13,7 +13,7 @@ class ConversationMessage(models.Model):
     content = models.TextField()
 
     created_by = models.ForeignKey(User, related_name='conversationmessages', on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['created_at']
