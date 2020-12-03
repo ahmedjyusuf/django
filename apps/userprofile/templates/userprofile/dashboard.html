@@ -3,6 +3,9 @@
 <h1 class="title">Dashboard</h1>
 {% if userprofile.is_employer %}
     <h2 class="subtitle">Jobs</h2>
+
+    <a href="{% url 'add_job' %}" class="btn btn-success">Add Job</a>
+
     {% for job in request.user.jobs.all %}
         <div class="job">
             <a href="{% url 'view_dashboard_job' job.id  %}">{{ job.title }}</a>
@@ -12,7 +15,7 @@
     {% endfor %}
 {% else %}
     <h2 class="subtitle">Applications</h2>
-    applicationsxxx
+    applications:
     
     {% for application in request.user.applications.all %}
     <ul class="list-group">

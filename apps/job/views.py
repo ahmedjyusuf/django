@@ -25,7 +25,7 @@ def add_job(request):
             
 
             return redirect('dashboard')
-
+        print('the form is not valid')
         return render(request, 'job/add_job.html', {'form': form})
     else:
         form = AddJobForm()

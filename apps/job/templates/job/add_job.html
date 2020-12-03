@@ -1,49 +1,163 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+    <div id="add-job-app">
+        <form method="post" action="." v-on:submit="validateForm">
+            {% csrf_token %}
+            {% if form.error  %}
+                {% for error in form.error %}
+                    <div class="notification is-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% if form.error  %}
-            {% for error in form.error %}
-                <div class="notification is-danger">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        {% endif %}
+            <div class="notification is-danger" v-if="errors.length">
+                <p v-for="error in errors">
+                    [[ error ]]
+                </p>
+            </div>
+            
         
-    
-        <div class="field">
-            <label>Title</label>
+            <div class="field">
+                <label>Title</label>
 
-            <div class="control">
-                <input class="input" name="title" id="id_title">
+                <div class="control">
+                    <input class="input" name="title" id="id_title" v-model="title">
+                </div>
+            </div>        
+
+            <div class="field">
+                <label>Short description</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="short_description" id="id_short_description" v-model="short_description"></textarea>
+                </div>
             </div>
-        </div>        
 
-        <div class="field">
-            <label>Short description</label>
 
-            <div class="control">
-                <textarea class="textarea" name="short_description" id="id_short_description"></textarea>
+            <div class="field">
+                <label>long description</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="long_description" id="id_long_description"></textarea>
+                </div>
             </div>
-        </div>
 
+            <div class="field">
+                <label>Company Name</label>
 
-        <div class="field">
-            <label>long description</label>
-
-            <div class="control">
-                <textarea class="textarea" name="long_description" id="id_long_description"></textarea>
+                <div class="control">
+                    <textarea class="textarea" name="company_name" id="id_company_name" v-model="company_name"></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-success">Add Job</button>
+            <div class="field">
+                <label>Company Address</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="company_address" id="id_company_address"></textarea>
+                </div>
             </div>
-        </div>
 
-    </form>
-    
+            <div class="field">
+                <label>Company Zipcode</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="company_zipcode" id="id_company_zipcode"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Company Place</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="company_place" id="id_company_place"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Company Country</label>
+
+                <div class="control">
+                    <textarea class="textarea" name="company_country" id="id_company_country"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Company Size</label>
+
+                <div class="control">
+                    <div class="select">
+                        <select name="company_size" id="id_company_size" v-model="company_size">
+                            <option value="">Choose size</option>
+                            <option value="size_1-9">1-9</option>
+                            <option value="size_10-49">10-49</option>
+                            <option value="size_50-99">50-99</option>
+                            <option value="size_100">100+</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>        
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success">Add Job</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const AddJobApp = {
+        data() {
+            return {
+                title: '',
+                company_name: '',
+                short_description: '',
+                company_size: '',
+                errors: []
+            }
+        },
+        delimiters: ['[[', ']]'],
+        methods: {
+            validateForm(e) {
+                this.erros = []
+
+                if (this.title === '') {
+                    this.errors.push('The title field is missing!')
+                }
+
+                if (this.company_name === '') {
+                    this.errors.push('The company name field is missing!')
+                }
+
+                if (this.short_description === '') {
+                    this.errors.push('The short descrition field is missing!')
+                }
+
+                if (this.company_size === '') {
+                    this.errors.push('The company size field is missing!')
+                }
+
+                if (this.errors.length) {
+                    e.preventDefault()
+
+                    return false
+                } else {
+                    return true
+                }
+            }
+        }
+    }
+
+    Vue.createApp(AddJobApp).mount('#add-job-app')
+</script>
+
+
 {% endblock %}
