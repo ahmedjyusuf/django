@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <dov id="search-app">
+        <h1 class="title">
+            <form action="" @submit.prevent="performSearch">
+                <div class="form-group">
+                    <label for="">Query</label>
+                    <input type="text" class="form-control" name="query" v-model="query">
+
+                </div>
+                <div class="form-group">
+                    <label for="">Company Size</label>
+                    <select name="company_size" v-model="company_size" id="" class="form-control">
+                        <option selected>All</option>
+                        <option value="size-1_9">1-9</option>
+                        <option value="size-10_49">10-49</option>
+                        <option value="size-40_99">50-99</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn-success">Search</button>
+                </div>
+            </form> 
+            <div v-if="jobs.length">
+                <hr>
+                <div v-for="job in jobs" :key="job.id">
+                    <a :href="job.url">
+                    <h3>[[ job.title ]]</h3>
+                    <p>[[ job.company_name ]]</p>
+                </a>
+                    
+                </div>
+            </div>
+        </h1>
+    </dov>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const SearchApp = {
+        data() {
+            return {
+                query: '',
+                company_size: '',
+                jobs: []
+            }
+        },
+        delimiters: ['[[', ']]'],
+        methods: {
+            performSearch() {
+                var data = {
+                    'query': this.query,
+                    'company_size': this.company_size
+                }
+                fetch('/jobs/api/search/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((result) => {
+                    console.log(result.jobs[0].title)
+                    this.jobs = result.jobs
+                })
+                .catch((error) => {
+                    console.log('Error', error)
+                })
+            }
+        }
+    }
+    Vue.createApp(SearchApp).mount('#search-app')
+</script>
+{% endblock %}

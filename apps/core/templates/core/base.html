@@ -20,8 +20,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-
-            
+                <a href="{% url 'search' %}" class="nav-item">Search</a>          
                 {% if request.user.is_authenticated %}
                 <ul class="navbar-nav mr-auto"></ul>
                     <li class="nav-item active">
