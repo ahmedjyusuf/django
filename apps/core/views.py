@@ -5,7 +5,7 @@ from apps.job.models import Job
 from apps.userprofile.models import Userprofile
 # Create your views here.
 def frontpage(request):
-    job = Job.objects.all().order_by('-created_at')
+    job = Job.objects.filter(status=Job.ACTIVE).order_by('-created_at')
 
     return render(request, 'core/frontpage.html', {'jobs': job})
 

@@ -25,9 +25,10 @@
             <div v-if="jobs.length">
                 <hr>
                 <div v-for="job in jobs" :key="job.id">
-                    <a :href="job.url">
+                    <a :href="job.url">             
                     <h3>[[ job.title ]]</h3>
                     <p>[[ job.company_name ]]</p>
+                    <br>
                 </a>
                     
                 </div>

@@ -5,6 +5,8 @@
     
     <p>{{ job.long_description }}</p>
     <p>{{ job.created_at }}</p>
+    <a href="{% url 'edit_job' job.id %}" class="button btn-warning mb-4">Edit</a>
+    <br>
 
     <b>Company name: </b> {{ job.company_name }}<br>
     <br>Company address: </br> {{ job.company_address }}<br>
